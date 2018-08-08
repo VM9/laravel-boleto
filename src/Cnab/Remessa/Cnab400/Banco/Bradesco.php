@@ -162,6 +162,9 @@ class Bradesco extends AbstractRemessa implements RemessaContract
      */
     public function addBoleto(BoletoContract $boleto)
     {
+        /*
+         * Alterações nas linhas marcadas com '*'. Os métodos get estão sendo pegos do objeto do parâmetro. Antes era da classe Bradesco ($this->).
+         */
         $this->boletos[] = $boleto;
         $this->iniciaDetalhe();
 
@@ -172,10 +175,10 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(13, 19, '');
         $this->add(20, 20, '');
         $this->add(21, 21, '0');
-        $this->add(22, 24, Util::formatCnab('9', $this->getCarteira(), 3));
-        $this->add(25, 29, Util::formatCnab('9', $this->getAgencia(), 5));
-        $this->add(30, 36, Util::formatCnab('9', $this->getConta(), 7));
-        $this->add(37, 37, Util::formatCnab('9', $this->getContaDv(), 1));
+        $this->add(22, 24, Util::formatCnab('9', $boleto->getCarteira(), 3)); // *
+        $this->add(25, 29, Util::formatCnab('9', $boleto->getAgencia(), 5)); // *
+        $this->add(30, 36, Util::formatCnab('9', $boleto->getConta(), 7)); // *
+        $this->add(37, 37, Util::formatCnab('9', $boleto->getContaDv(), 1)); // *
         $this->add(38, 62, Util::formatCnab('X', $boleto->getNumeroControle(), 25)); // numero de controle
         $this->add(63, 65, '000');
         $this->add(66, 66, $boleto->getMulta() > 0 ? '2' : '0');
